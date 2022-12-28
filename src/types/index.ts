@@ -20,4 +20,5 @@ export interface IContextMenu {
 export interface IFolderItems {
     name: string;
     children: ReactElement | undefined;
+    objChildLength: number;
 }

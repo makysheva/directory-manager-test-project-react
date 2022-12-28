@@ -27,7 +27,7 @@ export const ContextMenu: FC<IContextMenu> = ({
             >
                 {
                     items.map((item, i) => (
-                        <MenuItem className={styles.item} onClick={handleClose} key={item + i}>{item}</MenuItem>
+                        <MenuItem key={item + i} className={styles.item} onClick={handleClose}>{item}</MenuItem>
                     ))
                 }
             </Menu>

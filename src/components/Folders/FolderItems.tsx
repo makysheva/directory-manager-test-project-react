@@ -8,6 +8,7 @@ import styles from "./Folders.module.scss";
 export const FolderItems: FC<IFolderItems> = ({
   name,
   children,
+                                                  objChildLength,
 }) => {
     const [openMenuItem, setOpenMenuItem] = useState(false);
     const [menuCords, setMenuCords] = useState<IMenuCords>(initialState);
@@ -18,24 +19,34 @@ export const FolderItems: FC<IFolderItems> = ({
             mouseX: event.clientX - 2,
             mouseY: event.clientY - 4,
         });
-        setOpenMenuItem(!openMenuItem);
     };
 
     const handleClose = () => {
         setMenuCords(initialState);
     };
+    const handleMenuItemClick = () => {
+        setOpenMenuItem(!openMenuItem);
+    };
 
     return(
         <li className={styles.inner}>
-            <div className={styles.field}>
+            <div className={styles.field} onClick={handleMenuItemClick}>
                 <div onContextMenu={handleClick}>{name}</div>
-                <img
-                    src={openMenuItem ? "images/caret-up.svg" : "images/caret-down.svg"}
-                    alt={name}
-                    className={styles.arrow}
-                />
+                {
+                    objChildLength !== 0 ?
+                        <img
+                            src={openMenuItem ? "images/caret-up.svg" : "images/caret-down.svg"}
+                            alt={name}
+                            className={styles.arrow}
+                        />
+                        : null
+                }
             </div>
-            <div>{children}</div>
+            {
+                openMenuItem ?
+                <div>{children}</div>
+                : null
+            }
             <ContextMenu menuCords={menuCords} handleClick={handleClick} handleClose={handleClose}  />
         </li>
     );

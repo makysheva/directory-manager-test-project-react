@@ -10,5 +10,5 @@ export const Folders = () => {
 
     const treeList = renderTree(tree, 0);
 
-    return <>{treeList}</>;
+    return <div>{treeList}</div>;
 };
