@@ -1,0 +1,17 @@
+.inner{
+  max-width: 300px;
+  width: 100%;
+  border: 1px solid gray;
+}
+
+.arrow{
+  width: 15px;
+  height: 15px;
+}
+
+.field{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
