@@ -13,7 +13,12 @@ export const renderTree = (arr: any[], parentIndex: number) => {
             );
         }
         return(
-           <FolderItems key={obj.name + itemIndex} name={obj.name} objChildLength={obj.children.length} children={children} />
+           <FolderItems
+               key={obj.name + itemIndex}
+               name={obj.name}
+               objChildLength={obj.children.length}
+               children={children}
+           />
         );
     });
 

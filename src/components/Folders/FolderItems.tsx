@@ -8,7 +8,7 @@ import styles from "./Folders.module.scss";
 export const FolderItems: FC<IFolderItems> = ({
   name,
   children,
-                                                  objChildLength,
+  objChildLength,
 }) => {
     const [openMenuItem, setOpenMenuItem] = useState(false);
     const [menuCords, setMenuCords] = useState<IMenuCords>(initialState);
@@ -47,7 +47,12 @@ export const FolderItems: FC<IFolderItems> = ({
                 <div>{children}</div>
                 : null
             }
-            <ContextMenu menuCords={menuCords} handleClick={handleClick} handleClose={handleClose}  />
+            <ContextMenu
+                menuCords={menuCords}
+                handleClick={handleClick}
+                handleClose={handleClose}
+                name={name}
+            />
         </li>
     );
 };

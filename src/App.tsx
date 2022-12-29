@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import {apiUrl} from "./api";
+import {API_URL} from "./api";
 import {Folders} from "./components/Folders";
 import {IData} from "./types";
 import {AppContext} from "./utils/context";
@@ -11,7 +11,7 @@ const App: React.FC = () => {
     const [data, setData] = useState<IData[]>([]);
 
     useEffect(() => {
-        fetch(apiUrl)
+        fetch(API_URL)
             .then((response) => response.json())
             .then((d) => setData(d));
     }, []);

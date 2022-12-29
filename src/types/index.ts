@@ -1,4 +1,4 @@
-import React, {ReactElement} from "react";
+import React, {Dispatch, ReactElement, SetStateAction} from "react";
 
 export interface IMenuCords {
     mouseX: number | null;
@@ -15,10 +15,18 @@ export interface IContextMenu {
     handleClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     handleClose: () => void;
     menuCords: IMenuCords;
+    name: string;
 }
 
 export interface IFolderItems {
     name: string;
     children: ReactElement | undefined;
     objChildLength: number;
+}
+
+export interface IModalBlock {
+    type: string;
+    modalOpen: boolean;
+    setModalOpen: Dispatch<SetStateAction<boolean>>;
+    folderName: string;
 }
