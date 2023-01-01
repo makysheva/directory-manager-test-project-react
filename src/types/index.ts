@@ -1,5 +1,10 @@
 import React, {Dispatch, ReactElement, SetStateAction} from "react";
 
+export interface IContextData {
+    folders: IData[];
+    setFolders: Dispatch<SetStateAction<IData[]>>;
+}
+
 export interface IMenuCords {
     mouseX: number | null;
     mouseY: number | null;

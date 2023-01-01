@@ -34,7 +34,6 @@ export const editData = async (id: string, data: IEditData) => {
 };
 
 export const deleteData = async (id: string) => {
-    console.log('id',id)
     try {
         await axios.delete(`${API_URL}/${id}`);
     } catch (err) {

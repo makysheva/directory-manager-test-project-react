@@ -19,8 +19,10 @@ const App: React.FC = () => {
         fetchFolders();
     }, []);
 
+    const defaultContextValue = {folders, setFolders};
+
     return (
-        <AppContext.Provider value={folders}>
+        <AppContext.Provider value={defaultContextValue}>
             <div className="app">
                 <h2>Менеджер директорий</h2>
                 <small className="small">Нажмите правой кнопкой мыши по папке.</small>

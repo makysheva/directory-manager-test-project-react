@@ -6,9 +6,9 @@ import {RenderTree} from "./RenderTree";
 import styles from "./Folders.module.scss";
 
 export const Folders = () => {
-    const data = useContext(AppContext);
+    const {folders} = useContext(AppContext);
 
-    const tree = createTree(data, "id", "parent_id");
+    const tree = createTree(folders, "id", "parent_id");
 
     const treeList = RenderTree(tree, 0);
 

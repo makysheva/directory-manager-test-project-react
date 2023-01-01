@@ -1,8 +1,8 @@
 import {Modal} from "@material-ui/core";
-import React, {FC, useCallback, useContext, useEffect, useState} from "react";
+import React, {FC, useCallback, useContext, useState} from "react";
 import {IModalBlock} from "../../types";
 
-import {deleteData, editData, postData} from "../../api";
+import {deleteData, editData, getData, postData} from "../../api";
 import {CREATE_FOLDER, DELETE_FOLDER, EDIT_FOLDER} from "../../utils/constants/contextMenuItems";
 import {AppContext, TreeContext} from "../../utils/context";
 import {generateId} from "../../utils/helpers/generateId";
@@ -22,9 +22,8 @@ export const ModalBlock: FC<IModalBlock> = ({
     const [modalStyle] = useState(getModalStyle);
     const [createFolderName, setCreateFolderName] = useState("");
     const [editFolderName, setEditFolderName] = useState(folderName);
-    const [idDeletedFolder, setIdDeletedFolder] = useState("");
     const {id, parent_id, children} = useContext(TreeContext);
-    const data = useContext(AppContext);
+    const {folders, setFolders} = useContext(AppContext);
 
     const btnName = type.split(" ")[0];
 
@@ -62,9 +61,17 @@ export const ModalBlock: FC<IModalBlock> = ({
                     } else {
                         alert("Папка с таким именем есть в директории");
                     }
+                getData().then((r) => {
+                    if (r !== undefined) {
+                        setFolders(r);
+                    }
+                });
                 break;
             case EDIT_FOLDER:
-                if (!isUniqueModifiedName(data, editFolderName)) {
+                if (editFolderName === "") {
+                    alert("Введите название папки");
+                    return;
+                } else if (!isUniqueModifiedName(folders, editFolderName)) {
                     await editData(id, {
                         name: editFolderName,
                         parent_id,
@@ -73,61 +80,72 @@ export const ModalBlock: FC<IModalBlock> = ({
                 } else {
                     alert("Папка с таким именем есть в директории");
                 }
+                getData().then((r) => {
+                    if (r !== undefined) {
+                        setFolders(r);
+                    }
+                });
                 break;
 
             case DELETE_FOLDER:
+                await deleteData(id);
                 if (children) {
-                    await deleteData(id);
-                    setModalOpen(false);
-                    return children.every(async (obj, i) => {
-                        await deleteData(obj.id);
-                        setModalOpen(false);
-                    });
+                    await Promise.allSettled(
+                        children.map(async (child) => (
+                            await deleteData(child.id)
+                        )),
+                    );
                 }
+                setModalOpen(false);
+                getData().then((r) => {
+                    if (r !== undefined) {
+                        setFolders(r);
+                    }
+                });
                 break;
         }
-    }, [children, createFolderName, editFolderName, id, isCreateFolderType, parent_id, type, setModalOpen]);
+    }, [children, createFolderName, setFolders, folders, editFolderName, id, isCreateFolderType, parent_id, type, setModalOpen]);
 
     return(
-        <div>
-            <Modal
-                open={modalOpen}
-                onClose={handleClose}
-            >
-                <div className={styles.modal} style={modalStyle}>
-                    <div className={styles.header}>
-                        <div>{type}</div>
-                        <div onClick={handleClose} className={styles.close}>
-                            <img
-                                src="/images/close-icon.svg"
-                                alt="close"
-                            />
+            <div>
+                <Modal
+                    open={modalOpen}
+                    onClose={handleClose}
+                >
+                    <div className={styles.modal} style={modalStyle}>
+                        <div className={styles.header}>
+                            <div>{type}</div>
+                            <div onClick={handleClose} className={styles.close}>
+                                <img
+                                    src="/images/close-icon.svg"
+                                    alt="close"
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.content}>
+                            {
+                                type === CREATE_FOLDER ?
+                                    <input onChange={handleCreateName} value={createFolderName} />
+                                    : null
+                            }
+                            {
+                                type === EDIT_FOLDER ?
+                                    <input onChange={handleChangeName} value={editFolderName} />
+                                    : null
+                            }
+                            {
+                                type === DELETE_FOLDER ?
+                                    <div>Вы действительно хотите удалить папку?</div>
+                                    : null
+                            }
+                        </div>
+                        <div>
+                            <button
+                                onClick={handleClick}
+                            >{btnName}</button>
                         </div>
                     </div>
-                    <div className={styles.content}>
-                        {
-                            type === CREATE_FOLDER ?
-                                <input onChange={handleCreateName} value={createFolderName} />
-                                : null
-                        }
-                        {
-                            type === EDIT_FOLDER ?
-                                <input onChange={handleChangeName} value={editFolderName} />
-                                : null
-                        }
-                        {
-                            type === DELETE_FOLDER ?
-                                <div>Вы действительно хотите удалить папку?</div>
-                                : null
-                        }
-                    </div>
-                    <div>
-                        <button
-                            onClick={handleClick}
-                        >{btnName}</button>
-                    </div>
-                </div>
-            </Modal>
-        </div>
+                </Modal>
+            </div>
     );
 };

@@ -6,29 +6,29 @@
       "parent_id": "null"
     },
     {
-      "id": "urh8ctape",
-      "name": "javascript",
+      "id": "wfc6u6eho",
+      "name": "angular",
       "parent_id": "5e257721961a1"
     },
     {
-      "id": "yv23p9t8b",
-      "name": "redux",
+      "id": "v1va6hdl8",
+      "name": "реакт",
       "parent_id": "5e257721961a1"
     },
     {
-      "id": "27iblszik",
-      "name": "tollkit",
-      "parent_id": "yv23p9t8b"
+      "id": "pmwfmazj9",
+      "name": "web 3",
+      "parent_id": "wfc6u6eho"
     },
     {
-      "id": "nqir5ls5g",
-      "name": "store",
-      "parent_id": "yv23p9t8b"
+      "id": "6yq646qaa",
+      "name": "framework 444",
+      "parent_id": "wfc6u6eho"
     },
     {
-      "id": "1asicp2jh",
-      "name": "react",
-      "parent_id": "5e257721961a1"
+      "id": "tag0sg955",
+      "name": "props",
+      "parent_id": "v1va6hdl8"
     }
   ]
 }
