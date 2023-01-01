@@ -1,5 +1,5 @@
 import {Modal} from "@material-ui/core";
-import React, {FC, useCallback, useContext, useState} from "react";
+import React, {FC, useCallback, useContext, useEffect, useState} from "react";
 import {IModalBlock} from "../../types";
 
 import {deleteData, editData, getData, postData} from "../../api";
@@ -7,6 +7,7 @@ import {CREATE_FOLDER, DELETE_FOLDER, EDIT_FOLDER} from "../../utils/constants/c
 import {AppContext, TreeContext} from "../../utils/context";
 import {generateId} from "../../utils/helpers/generateId";
 import {getModalStyle} from "../../utils/helpers/getModalStyle";
+import {isEmptyInputName} from "../../utils/helpers/isEmptyInputName";
 import {
     isUniqueGeneratedName,
     isUniqueModifiedName,
@@ -22,10 +23,15 @@ export const ModalBlock: FC<IModalBlock> = ({
     const [modalStyle] = useState(getModalStyle);
     const [createFolderName, setCreateFolderName] = useState("");
     const [editFolderName, setEditFolderName] = useState(folderName);
+    const [isEmptyInput, setIsEmptyInput] = useState(false);
     const {id, parent_id, children} = useContext(TreeContext);
     const {folders, setFolders} = useContext(AppContext);
 
     const btnName = type.split(" ")[0];
+
+    useEffect(() => {
+        isEmptyInputName({type, createFolderName, editFolderName, setIsEmptyInput});
+    }, [type, createFolderName, editFolderName, setIsEmptyInput]);
 
     const handleClose = () => {
         setModalOpen(false);
@@ -61,11 +67,13 @@ export const ModalBlock: FC<IModalBlock> = ({
                     } else {
                         alert("Папка с таким именем есть в директории");
                     }
-                getData().then((r) => {
-                    if (r !== undefined) {
-                        setFolders(r);
-                    }
-                });
+                getData()
+                    .then((r) => {
+                        if (r !== undefined) {
+                            setFolders(r);
+                        }
+                    })
+                    .catch((err) => console.error(err));
                 break;
             case EDIT_FOLDER:
                 if (editFolderName === "") {
@@ -80,11 +88,13 @@ export const ModalBlock: FC<IModalBlock> = ({
                 } else {
                     alert("Папка с таким именем есть в директории");
                 }
-                getData().then((r) => {
-                    if (r !== undefined) {
-                        setFolders(r);
-                    }
-                });
+                getData()
+                    .then((r) => {
+                        if (r !== undefined) {
+                            setFolders(r);
+                        }
+                    })
+                    .catch((err) => console.error(err));
                 break;
 
             case DELETE_FOLDER:
@@ -97,14 +107,27 @@ export const ModalBlock: FC<IModalBlock> = ({
                     );
                 }
                 setModalOpen(false);
-                getData().then((r) => {
-                    if (r !== undefined) {
-                        setFolders(r);
-                    }
-                });
+                getData()
+                    .then((r) => {
+                        if (r !== undefined) {
+                            setFolders(r);
+                        }
+                    })
+                    .catch((err) => console.error(err));
                 break;
         }
-    }, [children, createFolderName, setFolders, folders, editFolderName, id, isCreateFolderType, parent_id, type, setModalOpen]);
+    }, [
+        children,
+        createFolderName,
+        setFolders,
+        folders,
+        editFolderName,
+        id,
+        isCreateFolderType,
+        parent_id,
+        type,
+        setModalOpen,
+    ]);
 
     return(
             <div>
@@ -141,6 +164,7 @@ export const ModalBlock: FC<IModalBlock> = ({
                         </div>
                         <div>
                             <button
+                                disabled={isEmptyInput}
                                 onClick={handleClick}
                             >{btnName}</button>
                         </div>

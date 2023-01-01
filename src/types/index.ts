@@ -5,6 +5,13 @@ export interface IContextData {
     setFolders: Dispatch<SetStateAction<IData[]>>;
 }
 
+export interface IEmptyInputName {
+    type: string;
+    createFolderName: string;
+    editFolderName: string;
+    setIsEmptyInput: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export interface IMenuCords {
     mouseX: number | null;
     mouseY: number | null;
