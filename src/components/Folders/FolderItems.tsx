@@ -30,8 +30,8 @@ export const FolderItems: FC<IFolderItems> = ({
 
     return(
         <li className={styles.inner}>
-            <div className={styles.field} onClick={handleMenuItemClick}>
-                <div onContextMenu={handleClick}>{name}</div>
+            <div className={styles.field} onClick={handleMenuItemClick} onContextMenu={handleClick}>
+                <div>{name}</div>
                 {
                     objChildLength !== 0 ?
                         <img

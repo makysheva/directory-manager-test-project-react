@@ -1,7 +1,14 @@
+.wrapper{
+  border: 1px solid gray;
+  width: 100%;
+  max-width: 334px;
+}
+
 .inner{
   max-width: 300px;
   width: 100%;
-  border: 1px solid gray;
+  font-size: 18px;
+  padding: 10px;
 }
 
 .arrow{
@@ -14,4 +21,11 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid gray;
+  padding: 5px;
+  cursor: pointer;
+
+  &:hover{
+    background-color: #f7f7f7;
+  }
 }

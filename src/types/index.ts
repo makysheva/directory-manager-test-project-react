@@ -11,6 +11,18 @@ export interface IData {
     parent_id: string;
 }
 
+export interface IEditData {
+    name: string;
+    parent_id: string;
+}
+
+export interface ITree {
+    id: string;
+    name: string;
+    children: ITree[];
+    parent_id: string;
+}
+
 export interface IContextMenu {
     handleClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     handleClose: () => void;

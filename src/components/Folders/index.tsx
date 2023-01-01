@@ -1,14 +1,16 @@
 import React, {useContext} from "react";
 import {AppContext} from "../../utils/context";
 import {createTree} from "../../utils/helpers/createTree";
-import {renderTree} from "../../utils/helpers/renderTree";
+import {RenderTree} from "./RenderTree";
+
+import styles from "./Folders.module.scss";
 
 export const Folders = () => {
     const data = useContext(AppContext);
 
     const tree = createTree(data, "id", "parent_id");
 
-    const treeList = renderTree(tree, 0);
+    const treeList = RenderTree(tree, 0);
 
-    return <div>{treeList}</div>;
+    return <div className={styles.wrapper}>{treeList}</div>;
 };

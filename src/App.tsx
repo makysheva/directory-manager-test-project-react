@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import {API_URL} from "./api";
+import {getData} from "./api";
 import {Folders} from "./components/Folders";
 import {IData} from "./types";
 import {AppContext} from "./utils/context";
@@ -8,17 +8,22 @@ import {AppContext} from "./utils/context";
 import "./styles/index.scss";
 
 const App: React.FC = () => {
-    const [data, setData] = useState<IData[]>([]);
+    const [folders, setFolders] = useState<IData[]>([]);
 
     useEffect(() => {
-        fetch(API_URL)
-            .then((response) => response.json())
-            .then((d) => setData(d));
+        const fetchFolders = async () => {
+           const data = await getData();
+           setFolders(data as IData[]);
+        };
+
+        fetchFolders();
     }, []);
 
     return (
-        <AppContext.Provider value={data}>
+        <AppContext.Provider value={folders}>
             <div className="app">
+                <h2>Менеджер директорий</h2>
+                <small className="small">Нажмите правой кнопкой мыши по папке.</small>
                 <Folders />
             </div>
         </AppContext.Provider>
